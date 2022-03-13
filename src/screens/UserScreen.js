@@ -5,37 +5,38 @@ import { Link } from 'react-router-dom';
 import usersApi from '../api/users';
 
 
-const UserScreen = ({ match }) => {
+// const UserScreen = ({ match }) => {
+  const UserScreen = (props) => {
+
+  // console.log("Single data: ", match)
+    console.log("user props: ", props)
  
 
 
-    const [user, setUser] = useState({});
 
-  useEffect(() => {
-    const fetchUser = async () => {
+    const [user, setUser] = useState(null);
+
  
-      const response = await usersApi.getUser(`/${match.params.id}`);
-      
-      console.log("api data recieved");
-      console.log(response.data.data);
-
-      setUser(response.data.data);
-  
-    }
-    fetchUser(); 
-  });
-
+    useEffect(() => {
     
-  
+      if (props.location.user) {
+        setUser(props.location.user)
+      }
+   
+     },[]);
+
+
+   
   return (
     <>
+     
       <Link className='btn btn-light my-3' to='/'>
        Home
       </Link>
-
-
       <h1>Latest Users</h1>
 
+  {user&&
+        
        <Card>
            {/* Image of User */}
            
@@ -82,6 +83,8 @@ const UserScreen = ({ match }) => {
           
         
       </Card>
+      }
+
     </>
   )
 }
